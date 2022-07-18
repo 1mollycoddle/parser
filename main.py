@@ -11,25 +11,32 @@ print(text)
 print(text)
 
 date1 = re.findall(r"[0-9][0-9][.,-][0-9][0-9][.,-]?[0-9]?[0-9]?[0-9]?[0-9]?", message)
-print(date1)
+date = ''.join(date1)
+print(date)
 
 find = re.findall(r'ерез [0-9]+|В [0-9:-]+|в [0-9:-]+|ерез час', message)
-print(find)
+find1 = ''.join(find)
+print(find1)
 
 day1 = re.findall(r'завтра|в понедельник|понедельник|во вторник|вторник|в среду|среду|в четверг|четверг|в пятницу|пятницу|в субботу|субботу|в воскресенье|воскресенье', message)
-print(day1)
+day = ''.join(day1)
+print(day)
 
-time1 = re.findall(r'(в [0-9]?[0-9][./:;-][0-9][0-9])|(в [0-9][0-9])', message)
+time1 = re.findall(r'в [0-9]?[0-9][./:;-][0-9][0-9]|в [0-9][0-9]', message)
 print(time1)
+time = ''.join(map(str,time1))
+print(time)
 
 clock = re.findall(r'минуты|часа|дня|минуту|часов|день|минут|час|дней', message)
-print(clock)
+clock1 = ''.join(clock)
+print(clock1)
 
 month = re.findall(r'\d\d?.(январ.|феврал.|март.|апрел.|ма.|июн.|июл.|август.|сентябр.|октябрь.|ноябр.|декабр.)', message)
-print(month)
+month1 = ''.join(month)
+print(month1)
 
 
-
+print(text.replace(month1,''))
 
 
 
