@@ -12,10 +12,10 @@ def instance(item):
 
 months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября',
           'декабря']
-
+day_array = ['дня', 'день', 'дней']
 key = ['минут', 'минуты', 'часа', 'часов', 'число']
-minutes_array = ['минут', 'минуты','минуцтц']
-hours_array = ['часа', 'часов','час']
+minutes_array = ['минут', 'минуты','минуту']
+hours_array = ['часа', 'часов', 'час']
 time_key = [
     'через', 'Через', 'каждые', 'Каждые', 'каждое', 'Каждое', 'каждый', 'Каждый',
     'каждую', 'Каждую', 'в', 'В', 'к', 'К'
@@ -88,45 +88,53 @@ def setDate(thing):
 
 
             if item in cherez:
-                if text[text.index(item)+2] in minutes_array:
-                    mins = now + timedelta(minutes = int(text[text.index(item) + 1]))
-                    mins = mins.time()
-                    hours = mins.hour
-                    minutes = mins.minute
-                    if len(str(minutes)) < 2 :
-                        minutes = '0'+ str(minutes)
-                    mins = str(hours) + ':' + str(minutes)
-
-
-                if text[text.index(item) + 2] in hours_array: #and text[text.index(item) + 3].isdigit() == False:
-                    mins = now + timedelta(hours = int(text[text.index(item) + 1]))
-                    mins = mins.time()
-                    hours = mins.hour
-                    minutes = mins.minute
-                    if len(str(minutes)) < 2:
-                        minutes = '0' + str(minutes)
-                    mins = str(hours) + ':' + str(minutes)
-
-                if  text[text.index(item) + 2] in hours_array and text[text.index(item) + 3].isdigit():
-                    mins = now + timedelta(hours = int(text[text.index(item)+1]), minutes = int(text[text.index(item)+3]))
-                    mins = mins.time()
-                    hours = mins.hour
-                    minutes = mins.minute
-                    if len(str(minutes)) < 2:
-                        minutes = '0' + str(minutes)
-                    mins = str(hours) + ':' + str(minutes)
-
-
+                # через час
                 if text[text.index(item) + 1] in hours_array:
-                    mins = now + timedelta(hours = 1)
+                    print(text[text.index(item) + 1])
+                    mins = now + timedelta(hours=1)
+                    print(mins)
                     mins = mins.time()
+                    print(mins)
                     hours = mins.hour
                     minutes = mins.minute
+                    if now.time() > mins:
+                        day = now + timedelta(days=1)
+                        day = day.day
+                        print(day)
+
                     if len(str(minutes)) < 2:
                         minutes = '0' + str(minutes)
+                    if len(str(hours)) < 2:
+                        hours = '0' + str(hours)
                     mins = str(hours) + ':' + str(minutes)
 
 
+                # через день
+                if text[text.index(item) + 1] in day_array:
+                    day = now.today() + timedelta(days=2)
+                    print(day)
+                    day = day.day
+                    print(day)
+                    mins = '12:00'
+
+
+                #через 2 дня(через 10 дней)
+                if text[text.index(item) + 2] in day_array:
+                    day = now + timedelta(days = int(text[text.index(item) + 1]))
+                    print(day)
+                    day = day.day
+                    print(day)
+                    mins = '12:00'
+
+
+
+
+
+
+
+
+
+                #через минуту
                 if text[text.index(item) + 1] in minutes_array:
                     mins = now + timedelta(minutes=1)
                     mins = mins.time()
@@ -134,6 +142,48 @@ def setDate(thing):
                     minutes = mins.minute
                     if len(str(minutes)) < 2:
                         minutes = '0' + str(minutes)
+                    if len(str(hours)) < 2:
+                        hours = '0' + str(hours)
+                    mins = str(hours) + ':' + str(minutes)
+
+                #через 22 минуты
+                if text[text.index(item)+2] in minutes_array:
+                    a = now + timedelta(minutes = int(text[text.index(item) + 1]))
+                    a = a.time()
+                    hours = a.hour
+                    minutes = a.minute
+                    if len(str(minutes)) < 2 :
+                        minutes = '0'+ str(minutes)
+                    if len(str(hours)) < 2:
+                        hours = '0' + str(hours)
+                    mins = str(hours) + ':' + str(minutes)
+                    if now.time() > a:
+                        day = now + timedelta(days=1)
+                        day = day.day
+                        print(day)
+
+                #через 2 часа
+                if text[text.index(item) + 2] in hours_array: #and text[text.index(item) + 3].isdigit() == False:
+                    mins = now + timedelta(hours = int(text[text.index(item) + 1]))
+                    mins = mins.time()
+                    hours = mins.hour
+                    minutes = mins.minute
+                    if len(str(minutes)) < 2:
+                        minutes = '0' + str(minutes)
+                    if len(str(hours)) < 2:
+                        hours = '0' + str(hours)
+                    mins = str(hours) + ':' + str(minutes)
+
+                #через 2 часа 30 минут
+                if  text[text.index(item) + 2] in hours_array and text[text.index(item) + 3].isdigit():
+                    mins = now + timedelta(hours = int(text[text.index(item)+1]), minutes = int(text[text.index(item)+3]))
+                    mins = mins.time()
+                    hours = mins.hour
+                    minutes = mins.minute
+                    if len(str(minutes)) < 2:
+                        minutes = '0' + str(minutes)
+                    if len(str(hours)) < 2:
+                        hours = '0' + str(hours)
                     mins = str(hours) + ':' + str(minutes)
 
 
@@ -145,10 +195,31 @@ def setDate(thing):
 
 
 
+            if 'утром' in item:
+                print(1)
+                mins = '09:00'
+
+
 
             if 'завтра' in item:
                 day = now.today() + timedelta(days=1)
                 day = day.day
+                mins = '12:00'
+                '''mins = now.time()
+                hours = mins.hour
+                minutes = mins.minute
+                if len(str(minutes)) < 2:
+                    minutes = '0' + str(minutes)
+                if len(str(hours)) < 2:
+                    hours = '0' + str(hours)
+                mins = str(hours) + ':' + str(minutes)'''
+
+
+
+
+
+
+
 
             if item in check:
                 obs = ' '.join(thing.split()[thing.split().index(item):thing.split().index(item) + 2])
@@ -170,7 +241,7 @@ def setDate(thing):
 
     except Exception as ex:
         print(ex)
-
+    print(day,month,year,mins)
     return [day, month, year, mins, obs]
 
 
@@ -225,7 +296,7 @@ def getTime(item):
         pass
 
 
-text_0 = "позвонить через 3 часа 30 минут"
+text_0 = "позвонить через час"
 text_1 = "Проснуться, улыбнуться, почистить зубы и помыться в 07:13"
 text_2 = "Съездить на дачу 17 мая в 16:15"
 text_3 = 'Подписать служебку у начальника 13 декабря 2021 года в 16:15'
